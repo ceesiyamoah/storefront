@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-!b4+dy=ry#wazguo6_x#p0d*!cb*-qz7fqoxpsty!m+n5v2i&0'
+SECRET_KEY = 'django-insecure-p^6^r%m4j%p1(aeediuvgnzv71^&!xibw-pk2e2pi*=@cfz^u4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -34,17 +34,12 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'playground',
-    'debug_toolbar',
-    'store',
-    'tags',
-    'likes'
 ]
 
 MIDDLEWARE = [
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -126,10 +121,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
-INTERNAL_IPS = [
-    # ...
-    "127.0.0.1",
-    # ...
-]
