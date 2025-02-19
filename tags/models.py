@@ -8,6 +8,9 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 class Tag (models.Model):
     label = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.label
+
 
 class TaggedItemManager(models.Manager):
     def get_tags_for(self, obj_type, obj_id):
