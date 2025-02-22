@@ -23,5 +23,6 @@ import playground.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('playground/', include(playground.urls))
+    path('playground/', include(playground.urls)),
+    path('store/', include('store.urls'))
 ] + debug_toolbar_urls()
