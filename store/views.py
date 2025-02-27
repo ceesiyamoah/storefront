@@ -1,26 +1,27 @@
-from django.shortcuts import get_object_or_404
-from django.http import HttpResponse
+
 from django.db.models.aggregates import Count
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.views import APIView
-from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-
-from store import serializers
-from store.filters import ProductFilter
-from store.models import OrderItem, Product, Collection, Review
-from store.serializers import CollectionSerializer, ProductSerializer, ReviewSerializer
+from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.viewsets import ModelViewSet
 from django_filters.rest_framework import DjangoFilterBackend
+
+from .pagination import DefaultPagination
+from .filters import ProductFilter
+from .models import OrderItem, Product, Collection, Review
+from .serializers import CollectionSerializer, ProductSerializer, ReviewSerializer
 # Create your views here.
 
 
 class ProductViewset(ModelViewSet):
-    serializer_class = ProductSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_class = ProductFilter
     queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
+    filterset_class = ProductFilter
+    search_fields = ['title', 'description']
+    ordering_fields = ['unit_price', 'last_update']
+    pagination_class = DefaultPagination
 
     def get_serializer_context(self):
         return {'request': self.request}
@@ -35,6 +36,9 @@ class CollectionViewSet(ModelViewSet):
     queryset = Collection.objects.annotate(
         products_count=Count('products')).all()
     serializer_class = CollectionSerializer
+    pagination_class = DefaultPagination
+    search_fields = ['title']
+    filter_backends = [SearchFilter]
 
     def destroy(self, request, *args, **kwargs):
         if Collection.objects.filter(products=kwargs['pk']).count:
