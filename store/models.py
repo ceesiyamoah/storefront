@@ -4,6 +4,8 @@ from django.core.validators import MinValueValidator
 from django.conf import settings
 from django.contrib import admin
 
+from store import permissions
+
 
 # Create your models here.
 
@@ -79,6 +81,9 @@ class Customer (models.Model):
 
     class Meta:
         ordering = ['user__first_name', 'user__last_name']
+        permissions = [
+            ('view_history', 'Can view history')
+        ]
 
 
 class Order (models.Model):
