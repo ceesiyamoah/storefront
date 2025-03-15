@@ -1,6 +1,6 @@
 from django.contrib import admin, messages
 
-from store.models import Address, Cart, CartItem, Collection, Customer, Order, OrderItem, Product
+from store.models import Address, Cart, CartItem, Collection, Customer, Order, OrderItem, Product, ProductImage
 from django.db.models import Count
 from django.utils.html import format_html
 from django.utils.http import urlencode
@@ -21,10 +21,22 @@ class InventoryFilter(admin.SimpleListFilter):
             return queryset.filter(inventory__lt=10)
 
 
+class ProductImageInline(admin.TabularInline):
+    model = ProductImage
+    readonly_fields = ['thumbnail']
+
+    def thumbnail(self, instance: ProductImage):
+        if instance.image.name != '':
+            return format_html(f'<img class="thumbnail" src="{instance.image.url}"/>')
+        else:
+            return ''
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     actions = ['clear_inventory']
     autocomplete_fields = ['collection']
+    inlines = [ProductImageInline]
     prepopulated_fields = {
         'slug': ['title']
     }
@@ -50,6 +62,11 @@ class ProductAdmin(admin.ModelAdmin):
         updated_count = queryset.update(inventory=0)
         self.message_user(
             request, f'{updated_count} products were successfully updated'), messages.SUCCESS
+
+    class Media:
+        css = {
+            'all': ['store/styles.css']
+        }
 
 
 @admin.register(Customer)
