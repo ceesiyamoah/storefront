@@ -19,6 +19,8 @@ django-debug-toolbar = "*"
 celery = "*"
 flower = "*"
 django-redis = "*"
+whitenoise = "*"
+gunicorn = "*"
 
 [dev-packages]
 pytest = "*"

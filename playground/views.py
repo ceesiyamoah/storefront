@@ -1,18 +1,23 @@
 from django.shortcuts import render
 import requests
-from django.core.cache import cache
 from django.views.decorators.cache import cache_page
 from rest_framework.views import APIView
-from django.utils.decorators import method_decorator
-
+import logging
 # from playground.tasks import notify_customers
 
 
+logger = logging.getLogger(__name__)
+
+
 class HelloView(APIView):
-    @method_decorator(cache_page(5*60))
     def get(self, request):
-        response = requests.get('http://httpbin.org/delay/2')
-        data = response.json()
+        try:
+            logger.info('Calling httpbin')
+            response = requests.get('http://httpbin.org/delay/2')
+            logger.info('Received the response')
+            data = response.json()
+        except requests.ConnectionError:
+            logger.critical('httpbin is offline')
 
         return render(request, 'hello.html', {'name': data, 'result': []})
 
