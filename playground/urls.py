@@ -8,5 +8,5 @@ admin.site.index_title = 'Admin'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('hello/', views.say_hello)
+    path('hello/', views.HelloView.as_view())
 ]

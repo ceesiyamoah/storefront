@@ -18,6 +18,7 @@ redis = "*"
 django-debug-toolbar = "*"
 celery = "*"
 flower = "*"
+django-redis = "*"
 
 [dev-packages]
 pytest = "*"
