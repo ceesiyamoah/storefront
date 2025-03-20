@@ -5,7 +5,7 @@ from storefront.settings.common import *
 DEBUG = False
 SECRET_KEY = os.environ['SECRET_KEY']
 
-ALLOWED_HOSTS = ['storefront-kd93.onrender.com']
+ALLOWED_HOSTS = ['44.201.118.14']
 
 INSTALLED_APPS += ["whitenoise.runserver_nostatic"]
 MIDDLEWARE.insert(1, "whitenoise.middleware.WhiteNoiseMiddleware")

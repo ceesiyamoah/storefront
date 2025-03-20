@@ -160,6 +160,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
 ]
 
+ALLOWED_HOSTS = ['44.201.118.14']
+
 
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
